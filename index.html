@@ -25,7 +25,7 @@
       .b-calculating {
         display: flex;
         flex-direction: row;
-        flex-wrap: nowrap;
+        flex-wrap: wrap;
         justify-content: center;
         align-items: normal;
         align-content: normal;
@@ -56,6 +56,10 @@
       }
       .b-calculating__rooms__part {
         border-color: #30c7b5;
+      }
+      .b-calculating__rooms__part__title {
+        font-weight: 700;
+        text-transform: uppercase;
       }
       .b-calculating__rooms__type {
         text-align: center;
@@ -97,6 +101,7 @@
         color: #333;
       }
       .b-calculating__rooms__part__moreinfo select {
+        max-width: 100%;
         padding: 5px;
       }
       .b-calculating__rooms__part__moreinfo__item {
@@ -131,7 +136,7 @@
       }
       .b-calculating__block input {
         min-height: 28px;
-        border: 1px solid #f1f1f1;
+        border: 1px solid #333;
       }
       .b-calculating__result {
         margin-top: 20px;
@@ -234,12 +239,52 @@
       .b-calculating__rooms__part__area input {
         padding: 5px;
       }
+      .b-calculating__rooms__part > div:first-child,
+      .b-calculating__rooms__part > div:nth-child(2) {
+        margin-bottom: 15px;
+      }
+
       @keyframes show {
         0% {
           opacity: 0;
         }
         100% {
           opacity: 1;
+        }
+      }
+      @media screen and (max-width: 1110px) {
+        .val label {
+          text-align: center;
+        }
+        .val label > input{
+          width: 100%;
+          margin-top: 7px;
+        }
+      }
+      @media screen and (max-width: 968px) {
+        .b-calculating__block {
+          width: 100% !important;
+        }
+        .b-calculating__block:nth-child(1) {
+          order: 1;
+        }
+        .b-calculating__block:nth-child(2) {
+          padding-left: 0;
+          margin-bottom: 15px;
+          order: 0;
+        }
+        .b-calculating__rooms__part > div {
+          width: 50%;
+        }
+        .b-calculating__rooms__part {
+          align-items: baseline;
+          flex-wrap: wrap;
+        }
+        .b-calculating__rooms__part__area input {
+          max-width: 85%;
+        }
+        .val label > input {
+          max-width: auto;
         }
       }
     </style>
@@ -253,9 +298,15 @@
             <label for="area"
               >Площадь квартиры: <input type="number" id="area" /> м²
             </label>
-            <div class="b-calculating__rooms__type" data-price="1">1 комнатная квартира</div>
-            <div class="b-calculating__rooms__type" data-price="2">2 комнатная квартира</div>
-            <div class="b-calculating__rooms__type" data-price="3">3 комнатная квартира</div>
+            <div class="b-calculating__rooms__type" data-price="1">
+              1 комнатная квартира
+            </div>
+            <div class="b-calculating__rooms__type" data-price="2">
+              2 комнатная квартира
+            </div>
+            <div class="b-calculating__rooms__type" data-price="3">
+              3 комнатная квартира
+            </div>
             <div class="b-calculating__result">
               <b>Стоимость ремонта</b>
               <br />

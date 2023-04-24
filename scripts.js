@@ -45,7 +45,7 @@ function createItems() {
       infoDescript.map(({ title, price }) => {
         const option = document.createElement('option');
 
-        option.textContent = `${title}`;
+        option.textContent = `${title}`; 
         option.value = `${price}`;
         select.append(option);
       });
