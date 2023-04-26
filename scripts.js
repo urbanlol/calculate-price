@@ -31,17 +31,20 @@ function createItems() {
       const moreInfoItem = document.createElement('div');
       const moreInfoTitle = document.createElement('h3');
       const select = document.createElement('select');
+      const input = document.createElement('input');
 
       moreInfoItem.classList.add('b-calculating__rooms__part__moreinfo__item');
-      moreInfoTitle.textContent = `${title}`;
+      moreInfoTitle.textContent = `${title}, м²`;
       select.name = `${id}-${i + 1}`;
+      input.type = 'number';
+      input.value = '0';
 
       moreInfo.append(moreInfoItem);
-      moreInfoItem.append(moreInfoTitle, select);
+      moreInfoItem.append(moreInfoTitle, input, select);
       infoDescript.map(({ title, price }) => {
         const option = document.createElement('option');
 
-        option.textContent = `${title}`; 
+        option.textContent = `${title}`;
         option.value = `${price}`;
         select.append(option);
       });
@@ -85,11 +88,11 @@ const typesRoom = () => {
 
 typesRoom();
 
-const reset = (sum, allSum, input, selects) => {
+const reset = (sum, allSum, selects, input) => {
   resetBtn.addEventListener('click', (e) => {
+    input.value = '0';
     sum.textContent = '0';
     result.textContent = '0';
-    input.value = '0';
     selects.forEach((select) => (select.selectedIndex = 0));
     allSum = [];
   });
@@ -100,15 +103,22 @@ const culc = () => {
     const allSum = [];
     blockContainer.forEach((block) => {
       const culcArr = [];
-      const input = block.querySelector('input');
       const selects = block.querySelectorAll('select');
       const sumItem = block.querySelector('.sum-item');
+      const items = block.querySelectorAll(
+        '.b-calculating__rooms__part__moreinfo__item'
+      );
       let sum = 0;
 
-      if (input.value !== '0') culcArr.push(input.value);
-
-      selects.forEach((select) => {
-        if (select.value !== '0') culcArr.push(select.value);
+      items.forEach((item) => {
+        const input = item.querySelector('input');
+        const select = item.querySelector('select');
+        if (select.value !== '0' && input.value !== '0') {
+          culcArr.push(
+            Math.round(+select.value * +input.value.replace(/\,/g, '.'))
+          );
+        }
+        reset(sumItem, allSum, selects, input);
       });
 
       if (culcArr.length !== 0) {
@@ -117,8 +127,6 @@ const culc = () => {
 
       sumItem.textContent = `${sum}`;
       allSum.push(sum);
-
-      reset(sumItem, allSum, input, selects);
     });
 
     result.textContent = `${allSum.reduce((prev, next) => prev + next, 0)}`;
