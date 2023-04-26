@@ -18,10 +18,6 @@ function createItems() {
     const roomsPart = `
     <div class="b-calculating__rooms__part">
       <div class="b-calculating__rooms__part__title">${title}</div>
-      <div class="b-calculating__rooms__part__area ${id}">
-        <label for="${id}-area">Уточните площадь: </label>
-        <input type="number" id="${id}-area" value="0" /> м²
-      </div>
       <div>Сумма: <span class="sum-item">0</span> грн</div>
       <span class="read-more">Подробнее</span>
     </div>
