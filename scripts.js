@@ -1,10 +1,14 @@
 import datas from './data.js';
 
-const calcContainer = document.querySelector('.b-calculating');
-const result = calcContainer.querySelector('#result');
-const resetBtn = calcContainer.querySelector('.b-control__reset');
-const allItems = calcContainer.querySelector('#all-items');
-const culcBtn = calcContainer.querySelector('#calculate-btn');
+const container = document.querySelector('.container');
+const calcContainer = container.querySelector('.b-calculating');
+const bottomInfo = container.querySelector('.b-bottom-info');
+const result = container.querySelector('#result');
+const resetBtn = container.querySelector('.b-control__reset');
+const roomArea = container.querySelector('#area');
+const allItems = container.querySelector('#all-items');
+const rooms = container.querySelectorAll('.b-calculating__rooms__type');
+const culcBtn = container.querySelector('#calculate-btn');
 
 function createItems() {
   datas.map((data) => {
@@ -88,19 +92,114 @@ const typesRoom = () => {
 
 typesRoom();
 
-const reset = (sum, allSum, selects, input) => {
+const reset = (sum, allSum, selects, input, pdfBtn) => {
   resetBtn.addEventListener('click', (e) => {
     input.value = '0';
     sum.textContent = '0';
+
     result.textContent = '0';
     selects.forEach((select) => (select.selectedIndex = 0));
+    pdfBtn.classList.remove('active');
+
+    rooms.forEach((room) => room.classList.remove('active'));
+    rooms[0].classList.add('active');
+
+    bottomInfo.classList.add('none');
+    bottomInfo.innerHTML = '';
+
+    roomArea.value = '60';
+
     allSum = [];
   });
+};
+
+const infoTable = () => {
+  bottomInfo.innerHTML = '';
+  const bottomInfoTitle = document.createElement('h3');
+
+  const detail = document.createElement('div');
+
+  bottomInfoTitle.classList.add('b-bottom-info__title');
+  detail.classList.add('b-bottom-info__container__detail');
+
+  if (!!+result.textContent) {
+    bottomInfo.classList.remove('none');
+    rooms.forEach((room) => {
+      bottomInfoTitle.textContent = `${room.textContent.trim()}, пощадь: ${
+        roomArea.value
+      } м²`;
+
+      bottomInfo.append(bottomInfoTitle);
+    });
+  }
+
+  blockContainer.forEach((block) => {
+    const detail = document.createElement('div');
+    const totalSum = document.createElement('div');
+    const title = block.querySelector('.b-calculating__rooms__part__title');
+    const sum = block.querySelector('.sum-item');
+    const moreInfo = block.querySelectorAll(
+      '.b-calculating__rooms__part__moreinfo__item'
+    );
+    const bottomInfoContainer = document.createElement('div');
+    bottomInfoContainer.classList.add('b-bottom-info__container');
+    const titleItem = document.createElement('div');
+
+    totalSum.classList.add('b-bottom-info__container__total');
+    titleItem.classList.add('b-bottom-info__container__title');
+    detail.classList.add('b-bottom-info__container__detail');
+    titleItem.textContent = `${title.textContent}`;
+
+    if (!!+sum.textContent) {
+      bottomInfo.append(bottomInfoContainer);
+      bottomInfoContainer.append(titleItem, detail, totalSum);
+    }
+
+    totalSum.insertAdjacentHTML(
+      'afterbegin',
+      `
+    <div>Итого:</div>
+    <div><b>${sum.textContent} грн</b></div>
+    `
+    );
+    moreInfo.forEach((info) => {
+      const itemTitle = info.querySelector('h3');
+      const itemInput = info.querySelector('input');
+      const itemSelect = info.querySelector('select');
+
+      const itemDetail = `
+      <div class="b-bottom-info__container__detail__item">${itemTitle.textContent.replace(
+        ', м²',
+        ''
+      )}, пощадь: ${itemInput.value} м²</div>
+      <div class="b-bottom-info__container__detail__item">${
+        itemSelect.options[itemSelect.options.selectedIndex].textContent
+      } - <b>${Math.round(+itemInput.value * +itemSelect.value)} грн</b></div>
+      `;
+
+      if (!!+itemSelect.value && !!+itemInput.value) {
+        detail.insertAdjacentHTML('afterbegin', itemDetail);
+      }
+    });
+  });
+
+  if (!!+result.textContent) {
+    bottomInfo.insertAdjacentHTML(
+      'beforeend',
+      `
+      <div class="b-bottom-info__total">
+      Всего: ${result.textContent} грн
+      </div>
+      `
+    );
+  }
 };
 
 const culc = () => {
   culcBtn.addEventListener('click', (e) => {
     const allSum = [];
+    const pdfBtn = calcContainer.querySelector('.b-control__pdf');
+
     blockContainer.forEach((block) => {
       const culcArr = [];
       const selects = block.querySelectorAll('select');
@@ -118,11 +217,12 @@ const culc = () => {
             Math.round(+select.value * +input.value.replace(/\,/g, '.'))
           );
         }
-        reset(sumItem, allSum, selects, input);
+        reset(sumItem, allSum, selects, input, pdfBtn);
       });
 
       if (culcArr.length !== 0) {
         sum = culcArr.reduce((prev, next) => +prev + +next, 0);
+        pdfBtn.classList.add('active');
       }
 
       sumItem.textContent = `${sum}`;
@@ -130,6 +230,8 @@ const culc = () => {
     });
 
     result.textContent = `${allSum.reduce((prev, next) => prev + next, 0)}`;
+
+    infoTable();
   });
 };
 culc();

@@ -15,6 +15,7 @@ body {
   position: relative;
 }
 .b-calculating {
+  margin-bottom: 15px;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -81,8 +82,7 @@ body {
   animation: show 2s 1;
   animation-fill-mode: forwards;
 }
-.b-calculating__block__container.active
-  .b-calculating__rooms__part__moreinfo {
+.b-calculating__block__container.active .b-calculating__rooms__part__moreinfo {
   display: flex;
   opacity: 1;
   transition: all 0.2s linear;
@@ -106,6 +106,50 @@ body {
 .b-calculating__rooms__type:not(:last-child),
 .b-calculating__block__container:not(:last-child) {
   margin-bottom: 13px;
+}
+.b-bottom-info {
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+.b-bottom-info__title {
+  padding-bottom: 15px;
+  margin-bottom: 25px;
+  text-align: center;
+  color: #333;
+  font-size: 20px;
+  font-weight: bold;
+  border-bottom: 1px solid #ccc;
+}
+.b-bottom-info__container {
+  margin: 0 auto 25px;
+  max-width: 768px;
+  padding: 15px;
+}
+.b-bottom-info__container__title {
+  padding-bottom: 15px;
+  margin-bottom: 15px;
+  color: #30c7b5;
+  border-bottom: 1px solid #ccc;
+}
+.b-bottom-info__container__detail,
+.b-bottom-info__container__total {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.b-bottom-info__container__detail__item {
+  margin-bottom: 13px;
+}
+.b-bottom-info__container__total {
+  padding: 15px 0;
+  border-top: 1px solid #ccc;
+  border-bottom: 2px solid #30c7b5;
+}
+.b-bottom-info__total {
+  text-align: center;
+  font-weight: bold;
+  font-size: 20px;
 }
 .val label {
   display: block;
@@ -223,8 +267,13 @@ body {
 .b-control__pdf {
   width: 65% !important;
   margin-right: 2%;
-  background-color: #a95a5a !important;
+  background-color: #ccc !important;
   border-color: #a95a5a !important;
+  pointer-events: none;
+}
+.b-control__pdf.active {
+  background-color: #a95a5a !important;
+  pointer-events: visible;
 }
 .b-control__reset {
   width: 33% !important;
@@ -235,8 +284,13 @@ body {
   width: 25%;
   padding: 5px;
   margin-bottom: 13px;
+  border-radius: 3px;
 }
-
+#area {
+  max-width: 180px;
+  padding: 5px;
+  border-radius: 3px;
+}
 @keyframes show {
   0% {
     opacity: 0;
@@ -286,6 +340,20 @@ body {
     width: 100%;
   }
 }
+
 @media print {
-  .b-calculating__rooms__type {display:none;}
+  .b-calculating {
+    display: none;
+  }
+  .b-bottom-info__container__detail__item {
+    width: 100%;
+  }
+  .b-bottom-info__container__detail__item:nth-child(even) {
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ccc;
+  }
+  .b-bottom-info__container__total {
+    border-top: none;
+  }
 }
