@@ -294,11 +294,10 @@ body {
 .error {
   margin-top: 15px;
   border: 2px solid #a95a5a;
-  padding: 15px;
+  padding: 4px 7px;
   color: #a95a5a;
   text-align: center;
   border-radius: 3px;
-  transition: all .4s;
 }
 .red {
   border: 2px solid red !important;
