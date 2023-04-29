@@ -125,8 +125,7 @@ const infoTable = () => {
   if (!!+result.textContent) {
     bottomInfo.classList.remove('none');
     rooms.forEach((room) => {
-      console.log(room)
-      if(room.classList.contains('active')) {
+      if (room.classList.contains('active')) {
         bottomInfoTitle.textContent = `${room.textContent.trim()}, пощадь: ${
           roomArea.value
         } м²`;
@@ -235,21 +234,20 @@ const culc = () => {
     result.textContent = `${allSum.reduce((prev, next) => prev + next, 0)}`;
 
     let error = `<div class="error">Для расчета необходимо ввести данные</div>`;
-    const input = allItems.querySelector('input')
-    const select =  allItems.querySelector('select')
+    const input = allItems.querySelector('input');
+    const select = allItems.querySelector('select');
 
-    if(!+result.textContent) {
-      culcBtn.insertAdjacentHTML('afterend', error)
-      input.classList.add('red')
-      select.classList.add('red')
+    if (!+result.textContent) {
+      culcBtn.insertAdjacentHTML('afterend', error);
+      setTimeout(() => {
+        container.querySelector('.error').remove();
+      }, 4000)
+      input.classList.add('red');
+      select.classList.add('red');
     } else {
-      if(!!container.querySelector('.error')) {
-        container.querySelector('.error').remove()
-      }
-
-      input.classList.remove('red')
-      select.classList.remove('red')
-    } 
+      input.classList.remove('red');
+      select.classList.remove('red');
+    }
     infoTable();
   });
 };
