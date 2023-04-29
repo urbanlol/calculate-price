@@ -125,9 +125,12 @@ const infoTable = () => {
   if (!!+result.textContent) {
     bottomInfo.classList.remove('none');
     rooms.forEach((room) => {
-      bottomInfoTitle.textContent = `${room.textContent.trim()}, пощадь: ${
-        roomArea.value
-      } м²`;
+      console.log(room)
+      if(room.classList.contains('active')) {
+        bottomInfoTitle.textContent = `${room.textContent.trim()}, пощадь: ${
+          roomArea.value
+        } м²`;
+      }
 
       bottomInfo.append(bottomInfoTitle);
     });
