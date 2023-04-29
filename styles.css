@@ -291,6 +291,17 @@ body {
   padding: 5px;
   border-radius: 3px;
 }
+.error {
+  margin-top: 15px;
+  border: 2px solid #a95a5a;
+  padding: 15px;
+  color: #a95a5a;
+  text-align: center;
+  border-radius: 3px;
+}
+.red {
+  border: 2px solid red !important;
+}
 @keyframes show {
   0% {
     opacity: 0;

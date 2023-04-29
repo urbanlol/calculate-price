@@ -231,6 +231,22 @@ const culc = () => {
 
     result.textContent = `${allSum.reduce((prev, next) => prev + next, 0)}`;
 
+    let error = `<div class="error">Для расчета необходимо ввести данные</div>`;
+    const input = allItems.querySelector('input')
+    const select =  allItems.querySelector('select')
+
+    if(!+result.textContent) {
+      culcBtn.insertAdjacentHTML('afterend', error)
+      input.classList.add('red')
+      select.classList.add('red')
+    } else {
+      if(!!container.querySelector('.error')) {
+        container.querySelector('.error').remove()
+      }
+
+      input.classList.remove('red')
+      select.classList.remove('red')
+    } 
     infoTable();
   });
 };
