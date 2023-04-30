@@ -9,6 +9,7 @@ const roomArea = container.querySelector('#area');
 const allItems = container.querySelector('#all-items');
 const rooms = container.querySelectorAll('.b-calculating__rooms__type');
 const culcBtn = container.querySelector('#calculate-btn');
+const pdfBtn = container.querySelector('.b-control__pdf');
 
 function createItems() {
   datas.map((data) => {
@@ -22,7 +23,7 @@ function createItems() {
     const roomsPart = `
     <div class="b-calculating__rooms__part">
       <div class="b-calculating__rooms__part__title">${title}</div>
-      <div>Сумма: <span class="sum-item">0</span> грн</div>
+      <div>Вартість: <span class="sum-item">0</span> грн</div>
       <span class="read-more">Подробнее</span>
     </div>
     `;
@@ -126,7 +127,7 @@ const infoTable = () => {
     bottomInfo.classList.remove('none');
     rooms.forEach((room) => {
       if (room.classList.contains('active')) {
-        bottomInfoTitle.textContent = `${room.textContent.trim()}, пощадь: ${
+        bottomInfoTitle.textContent = `${room.textContent.trim()}, площа: ${
           roomArea.value
         } м²`;
       }
@@ -160,7 +161,7 @@ const infoTable = () => {
     totalSum.insertAdjacentHTML(
       'afterbegin',
       `
-    <div>Итого:</div>
+    <div>Підсумок:</div>
     <div><b>${sum.textContent} грн</b></div>
     `
     );
@@ -173,7 +174,7 @@ const infoTable = () => {
       <div class="b-bottom-info__container__detail__item">${itemTitle.textContent.replace(
         ', м²',
         ''
-      )}, пощадь: ${itemInput.value} м²</div>
+      )}, площа: ${itemInput.value} м²</div>
       <div class="b-bottom-info__container__detail__item">${
         itemSelect.options[itemSelect.options.selectedIndex].textContent
       } - <b>${Math.round(+itemInput.value * +itemSelect.value)} грн</b></div>
@@ -190,7 +191,7 @@ const infoTable = () => {
       'beforeend',
       `
       <div class="b-bottom-info__total">
-      Всего: ${result.textContent} грн
+      Всього: ${result.textContent} грн
       </div>
       `
     );
@@ -200,7 +201,6 @@ const infoTable = () => {
 const culc = () => {
   culcBtn.addEventListener('click', (e) => {
     const allSum = [];
-    const pdfBtn = calcContainer.querySelector('.b-control__pdf');
 
     blockContainer.forEach((block) => {
       const culcArr = [];
@@ -233,7 +233,7 @@ const culc = () => {
 
     result.textContent = `${allSum.reduce((prev, next) => prev + next, 0)}`;
 
-    let error = `<div class="error">Для расчета необходимо ввести данные</div>`;
+    let error = `<div class="error">Для розрахунку необхідно ввести дані</div>`;
     const input = allItems.querySelector('input');
     const select = allItems.querySelector('select');
 
@@ -241,7 +241,7 @@ const culc = () => {
       culcBtn.insertAdjacentHTML('afterend', error);
       setTimeout(() => {
         container.querySelector('.error').remove();
-      }, 4000)
+      }, 4000);
       input.classList.add('red');
       select.classList.add('red');
     } else {
@@ -252,3 +252,76 @@ const culc = () => {
   });
 };
 culc();
+
+const popUpPdf = () => {
+  pdfBtn.addEventListener('click', () => {
+    const popUp = document.createElement('div');
+    const overlay = document.createElement('div');
+    const popUpForm = document.createElement('form');
+    const popUpPhone = document.createElement('input');
+    const popUpName = document.createElement('input');
+    const popUpEmail = document.createElement('input');
+    const popUpSubmit = document.createElement('button');
+    const popUpCloseBtn = document.createElement('div');
+
+    popUp.classList.add('b-popup');
+    overlay.classList.add('b-popup__overlay');
+
+    popUpForm.setAttribute('method', 'post');
+
+    popUpForm.name = 'popup-form';
+    popUpName.type = 'text';
+    popUpName.placeholder = "Ваш ім'я *";
+    popUpName.setAttribute('required', '');
+
+    popUpEmail.type = 'email';
+    popUpEmail.placeholder = 'Ваш Email *';
+    popUpEmail.setAttribute('required', '');
+    popUpEmail.setAttribute(
+      'pattern',
+      '[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$'
+    );
+
+    popUpPhone.type = 'tel';
+    popUpPhone.setAttribute('pattern', '[0-9]{10}');
+    popUpPhone.placeholder = 'Ваш телефон';
+    popUpPhone.maxLength = '12';
+    popUpPhone.minLength = '10';
+
+    popUpSubmit.type = 'submit'
+    popUpSubmit.textContent = 'Відправити';
+    popUpCloseBtn.classList.add('close');
+
+    popUpForm.append(popUpName, popUpEmail, popUpPhone, popUpSubmit);
+    popUp.append(popUpForm, popUpCloseBtn);
+    container.append(popUp, overlay);
+
+    popUpSubmit.insertAdjacentHTML('afterend', '<div class="after-btn-info">Після відправки форми Ви зможете завантажити pdf файл</div>')
+
+    popUpForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (!!popUpName.value && !!popUpEmail.value) {
+        window.print();
+        popUpName.value = ''
+        popUpEmail.value = ''
+        popUp.remove();
+        overlay.remove();
+      }
+    })
+
+    removePopup(popUp, overlay);
+  });
+};
+popUpPdf();
+
+function removePopup(popUp, overlay) {
+  window.addEventListener('click', (e) => {
+    if (
+      e.target.className === 'close' ||
+      e.target.className === 'b-popup__overlay'
+    ) {
+      popUp.remove();
+      overlay.remove();
+    }
+  });
+}

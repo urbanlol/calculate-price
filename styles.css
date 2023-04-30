@@ -164,6 +164,7 @@ body {
   color: #fff;
   cursor: pointer;
   text-transform: uppercase;
+  transition: all 0.3s;
 }
 .val button:hover {
   border: 2px solid #1ea091;
@@ -302,6 +303,76 @@ body {
 .red {
   border: 2px solid red !important;
 }
+.b-popup {
+  padding: 15px;
+  width: 400px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+}
+.b-popup__overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgb(51 51 51 / 95%);
+  cursor: pointer;
+}
+.b-popup form input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 3px;
+  border: 1px solid #333;
+  text-align: left;
+  color: #333;
+}
+.b-popup form input::placeholder {
+  color: #8a8a8a;
+}
+.b-popup form {
+  text-align: center;
+}
+.b-popup form button {
+  min-width: 200px;
+  padding: 10px;
+  border-radius: 3px;
+  border: 2px solid #30c7b5;
+  background: #30c7b5;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.b-popup form button:hover {
+  border: 2px solid #1ea091;
+  background: #1ea091;
+}
+.close {
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  right: -20px;
+  top: -15px;
+  border: 1px solid #1ea091;
+  border-radius: 50%;
+  color: #333;
+  cursor: pointer;
+}
+
+.close::after {
+  content: 'x';
+  font-size: 20px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
 @keyframes show {
   0% {
     opacity: 0;
@@ -342,7 +413,10 @@ body {
     max-width: auto;
   }
 }
-
+.after-btn-info {
+  margin-top: 13px;
+  font-size: 12px;
+}
 @media screen and (max-width: 968px) {
   .b-calculating__rooms__part__moreinfo h3 {
     font-size: 14px;
@@ -366,5 +440,9 @@ body {
   }
   .b-bottom-info__container__total {
     border-top: none;
+  }
+  .b-popup,
+  .b-popup__overlay {
+    display: none;
   }
 }
