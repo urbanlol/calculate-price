@@ -425,7 +425,30 @@ body {
     width: 100%;
   }
 }
-
+@media screen and (max-width: 390px) {
+  .b-calculating__rooms__part__moreinfo__item {
+    width: 100%;
+  }
+  .close {
+    right: 15px;
+    top: -15px;
+  }
+  .val button {
+    padding: 10px;
+  }
+  .b-bottom-info__title {
+    font-size: 16px;
+  }
+  .b-bottom-info__title {
+    margin-bottom: 15px;
+  }
+  .b-bottom-info {
+    padding: 10px 0;
+  }
+  .b-bottom-info__container__detail, .b-bottom-info__container__total {
+    font-size: 14px;
+  }
+}
 @media print {
   .b-calculating {
     display: none;
