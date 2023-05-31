@@ -24,7 +24,7 @@ function createItems() {
     <div class="b-calculating__rooms__part">
       <div class="b-calculating__rooms__part__title">${title}</div>
       <div>Вартість: <span class="sum-item">0</span> грн</div>
-      <span class="read-more">Подробнее</span>
+      <span class="read-more">Детальніше</span>
     </div>
     `;
     allItems.append(container);
