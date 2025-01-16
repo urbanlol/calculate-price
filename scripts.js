@@ -325,3 +325,9 @@ function removePopup(popUp, overlay) {
     }
   });
 }
+
+// скрипт для того шоб можна було вставити посилання в iframe
+window.onload = function () {
+  const height = document.body.scrollHeight; // Обчислення висоти контенту
+  window.parent.postMessage(height, '*'); // Надсилаємо висоту батьківському вікну
+};
